@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Valentine Form 💌</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Google Fonts: Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body, html {
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      padding: 20px;
+    }
+    .welcome-text { text-align: center; margin-bottom: 20px; color: white; font-size: 1.5rem; font-weight: 600; text-shadow: 2px 2px 5px rgba(0,0,0,0.3); }
+    .card { background: rgba(255,255,255,0.95); padding: 40px; border-radius: 20px; max-width: 450px; width: 100%; text-align: center; box-shadow: 0 0 30px rgba(0,0,0,0.2); position: relative; }
+    .card h1 { color: #d6336c; margin-bottom: 10px; font-weight: 700; font-size: 2rem; }
+    .card p { color: #555; margin-bottom: 25px; font-weight: 500; }
+    .hearts { color: #ff4d6d; font-size: 1.5rem; margin-bottom: 20px; }
+    .info-form input, .info-form textarea { width: 100%; padding: 12px 15px; margin-bottom: 15px; border-radius: 10px; border: 1px solid #ccc; font-size: 1rem; transition: 0.3s; }
+    .info-form input:focus, .info-form textarea:focus { outline: none; border-color: #ff4d6d; box-shadow: 0 0 5px rgba(255, 77, 109, 0.5); }
+    .info-form input[type="file"] { padding: 10px; border-radius: 10px; border: 1px solid #ccc; font-size: 1rem; background-color: white; }
+    .info-form button { width: 100%; padding: 12px; font-size: 1.2rem; font-weight: 600; border: none; border-radius: 12px; background-color: #ff4d6d; color: white; transition: all 0.3s ease; }
+    .info-form button:hover { background-color: #e63950; transform: scale(1.03); }
+    .bg-heart { position: absolute; font-size: 3rem; color: rgba(255, 77, 109, 0.2); animation: float 6s infinite ease-in-out; }
+    @keyframes float { 0% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-20px) rotate(15deg); } 100% { transform: translateY(0) rotate(0deg); } }
+    @media(max-width: 576px){ .card { padding: 30px 20px; } .info-form button { font-size: 1rem; } }
+  </style>
+</head>
+<body>
+
+  <div class="welcome-text">
+    💖 Welcome to My Valentine’s Form! Send me your love and a cute picture 💌
+  </div>
+
+  <div class="bg-heart" style="top:10%; left:15%;">❤️</div>
+  <div class="bg-heart" style="top:30%; left:70%;">💖</div>
+  <div class="bg-heart" style="top:60%; left:40%;">💕</div>
+
+  <div class="card">
+    <div class="hearts">❤️💌💖</div>
+    <h1>Almost there! 🥰</h1>
+    <p>Please fill your full name and send me a sweet message 💌</p>
+
+    <form class="info-form" onsubmit="return validateForm()">
+      <input type="text" name="fullname" placeholder="Your Full Name" required>
+      <textarea name="message" rows="3" placeholder="Your Sweet Message 💖" required></textarea>
+
+      <label for="photo" style="display:block; text-align:left; margin-bottom:8px; font-weight:600; color:#d6336c;">
+        Upload a Picture of Us 💖
+      </label>
+      <input type="file" id="photo" name="photo" accept="image/*" required>
+
+      <label for="date_place" style="display:block; text-align:left; margin-bottom:8px; font-weight:600; color:#d6336c;">
+        Asa ta mag date? 📍
+      </label>
+      <input type="text" id="date_place" name="date_place" placeholder="Enter the place" required>
+
+      <label for="date_time" style="display:block; text-align:left; margin-bottom:8px; font-weight:600; color:#d6336c;">
+        Unsa orasa? ⏰
+      </label>
+      <input type="time" id="date_time" name="date_time" required>
+
+      <label for="code" style="display:block; text-align:left; margin-bottom:8px; font-weight:600; color:#d6336c;">
+        Enter our monthsarry code 💌
+      </label>
+      <input type="number" id="code" name="code" placeholder="Enter 6-digit code" min="0" max="999999" required>
+
+      <button type="submit">Send 💌</button>
+    </form>
+  </div>
+
+<script>
+function validateForm() {
+  const fullname = document.querySelector('[name="fullname"]').value.trim();
+  const message = document.querySelector('[name="message"]').value.trim();
+  const datePlace = document.getElementById('date_place').value.trim();
+  const dateTime = document.getElementById('date_time').value;
+  const codeInput = document.getElementById('code').value.trim();
+  const photoFile = document.getElementById('photo').files[0];
+
+  if(!fullname || !message || !datePlace || !dateTime || !codeInput || !photoFile){
+    alert('Please fill all fields and upload a photo 💖');
+    return false;
+  }
+
+  if(codeInput !== '021523' && codeInput !== '21523'){
+    alert('Incorrect code! 💖');
+    return false;
+  }
+
+  // Save text inputs to localStorage
+  localStorage.setItem('fullname', fullname);
+  localStorage.setItem('message', message);
+  localStorage.setItem('datePlace', datePlace);
+  localStorage.setItem('dateTime', dateTime);
+
+  // Convert photo to Base64
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    localStorage.setItem('photo', e.target.result);
+    window.location.href = 'thankyou.html'; // redirect after saving
+  };
+  reader.readAsDataURL(photoFile);
+
+  return false; // prevent default form submission
+}
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
